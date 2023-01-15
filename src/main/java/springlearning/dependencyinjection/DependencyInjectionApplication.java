@@ -3,16 +3,17 @@ package springlearning.dependencyinjection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import springlearning.dependencyinjection.controllers.ConstructorInjectedController;
-import springlearning.dependencyinjection.controllers.MyController;
-import springlearning.dependencyinjection.controllers.PropertyInjectedController;
-import springlearning.dependencyinjection.controllers.SetterInjectedController;
+import springlearning.dependencyinjection.controllers.*;
 
 @SpringBootApplication
 public class DependencyInjectionApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(DependencyInjectionApplication.class, args);
+
+		I18nController i18nController = (I18nController) ctx.getBean("i18nController");
+
+		System.out.println(i18nController.sayHello());
 
 		MyController controller = (MyController) ctx.getBean("myController");
 
