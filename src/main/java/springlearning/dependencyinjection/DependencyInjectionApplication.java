@@ -16,9 +16,7 @@ public class DependencyInjectionApplication {
 
 		MyController controller = (MyController) ctx.getBean("myController");
 
-		String greeting = controller.sayHello();
-
-		System.out.println(greeting);
+		System.out.println(controller.sayHello());
 
 		System.out.println("------- PROPERTY");
 
