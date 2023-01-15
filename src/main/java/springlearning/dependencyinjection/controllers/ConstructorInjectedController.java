@@ -1,5 +1,6 @@
 package springlearning.dependencyinjection.controllers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import springlearning.dependencyinjection.services.GreetingService;
 
@@ -7,7 +8,7 @@ import springlearning.dependencyinjection.services.GreetingService;
 public class ConstructorInjectedController {
     private final GreetingService greetingService;
 
-    public ConstructorInjectedController(GreetingService greetingService) {
+    public ConstructorInjectedController(@Qualifier("constructorGreetingService") GreetingService greetingService) {
         this.greetingService = greetingService;
     }
 
