@@ -2,7 +2,7 @@ package springlearning.dependencyinjection.controllers;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import springlearning.dependencyinjection.services.PetService;
+import com.springframework.pets.PetService;
 
 @Controller
 public class PetController {
