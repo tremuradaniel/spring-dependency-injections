@@ -3,8 +3,8 @@ package springlearning.dependencyinjection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import springlearning.dependencyinjection.controllers.*;
+import springlearning.dependencyinjection.datasource.FakeDataSource;
 
 @SpringBootApplication
 public class DependencyInjectionApplication {
@@ -41,6 +41,12 @@ public class DependencyInjectionApplication {
 		ConstructorInjectedController cController = (ConstructorInjectedController) ctx.getBean("constructorInjectedController");
 
 		System.out.println(cController.getGreeting());
+
+		FakeDataSource fakeDataSource = ctx.getBean(FakeDataSource.class);
+
+		System.out.println(fakeDataSource.getUsername());
+		System.out.println(fakeDataSource.getPassword());
+		System.out.println(fakeDataSource.getJdbcurl());
 	}
 
 }

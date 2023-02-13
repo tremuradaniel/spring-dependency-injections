@@ -2,51 +2,64 @@ package springlearning.dependencyinjection.config;
 
 import com.springframework.pets.PetService;
 import com.springframework.pets.PetServiceFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.*;
+import springlearning.dependencyinjection.datasource.FakeDataSource;
 import springlearning.dependencyinjection.repositories.EnglishGreetingRepository;
 import springlearning.dependencyinjection.repositories.EnglishGreetingRepositoryImpl;
 import springlearning.dependencyinjection.services.*;
 
+@PropertySource("classpath:datasource.properties")
 @Configuration
 public class GreetingServiceConfig {
 
     @Bean
-    PetServiceFactory petServiceFactory(){
+    FakeDataSource fakeDataSource(
+            @Value("${app.username}") String username,
+            @Value("${app.password}") String password,
+            @Value("${app.jdbcurl}") String jdbcurl
+    ) {
+        FakeDataSource fakeDataSource = new FakeDataSource();
+
+        fakeDataSource.setUsername(username);
+        fakeDataSource.setPassword(password);
+        fakeDataSource.setJdbcurl(jdbcurl);
+
+        return fakeDataSource;
+    }
+
+
+    @Bean
+    PetServiceFactory petServiceFactory() {
         return new PetServiceFactory();
     }
 
     @Bean
     @Profile("dog")
-    PetService dogPetService(PetServiceFactory petServiceFactory){
+    PetService dogPetService(PetServiceFactory petServiceFactory) {
         return petServiceFactory.getPetService("dog");
     }
 
     @Profile({"cat", "default"})
     @Bean
-    PetService catPetService(PetServiceFactory petServiceFactory){
+    PetService catPetService(PetServiceFactory petServiceFactory) {
         return petServiceFactory.getPetService("cat");
     }
 
     @Profile({"ES", "default"})
     @Bean("i18nService")
-    I18nSpanishGreetingService i18nSpanishGreetingService()
-    {
+    I18nSpanishGreetingService i18nSpanishGreetingService() {
         return new I18nSpanishGreetingService();
     }
 
     @Bean
-    EnglishGreetingRepository englishGreetingRepository()
-    {
+    EnglishGreetingRepository englishGreetingRepository() {
         return new EnglishGreetingRepositoryImpl();
     }
 
     @Profile("EN")
     @Bean
-    I18nEnglishGreetingService i18nService(EnglishGreetingRepository englishGreetingRepository)
-    {
+    I18nEnglishGreetingService i18nService(EnglishGreetingRepository englishGreetingRepository) {
         return new I18nEnglishGreetingService(englishGreetingRepository);
     }
 
